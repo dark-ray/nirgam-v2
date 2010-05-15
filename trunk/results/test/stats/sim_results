@@ -1,0 +1,98 @@
+Tile	Output		Total no.	Total no.	avg. latency	avg. latency	average
+ID	channel		of packets	of flits	per packet	per flit	throughput
+							(clock cycles)	(clock cycles)	(Gbps)
+0	South		0		0		0		0		0
+0	East		1		4		8		2		16
+0	Core		2		8		46		11.5		32
+1	South		1		4		8		2		16
+1	East		2		8		6.5		1.625		18.2857
+1	West		1		4		6		1.5		21.3333
+1	Core		0		0		0		0		0
+2	South		1		4		7		1.75		18.2857
+2	East		1		4		6		1.5		21.3333
+2	West		1		4		6		1.5		21.3333
+2	Core		1		4		58		14.5		32
+3	South		0		0		0		0		0
+3	West		1		4		8		2		16
+3	Core		1		4		38		9.5		32
+4	North		1		4		6		1.5		21.3333
+4	South		0		0		0		0		0
+4	East		0		0		0		0		0
+4	Core		0		0		0		0		0
+5	North		1		4		7		1.75		18.2857
+5	South		3		12		7.33333		1.83333		25.6
+5	East		0		0		0		0		0
+5	West		1		4		7		1.75		18.2857
+5	Core		0		0		0		0		0
+6	North		1		4		7		1.75		18.2857
+6	South		0		0		0		0		0
+6	East		0		0		0		0		0
+6	West		1		4		6		1.5		21.3333
+6	Core		0		0		0		0		0
+7	North		0		0		0		0		0
+7	South		0		0		0		0		0
+7	West		1		4		8		2		16
+7	Core		0		0		0		0		0
+8	North		0		0		0		0		0
+8	South		0		0		0		0		0
+8	East		0		0		0		0		0
+8	Core		0		0		0		0		0
+9	North		2		8		8		2		23.2727
+9	South		1		4		7		1.75		18.2857
+9	East		0		0		0		0		0
+9	West		0		0		0		0		0
+9	Core		2		8		25		6.25		25.6
+10	North		0		0		0		0		0
+10	South		0		0		0		0		0
+10	East		0		0		0		0		0
+10	West		0		0		0		0		0
+10	Core		0		0		0		0		0
+11	North		0		0		0		0		0
+11	South		0		0		0		0		0
+11	West		0		0		0		0		0
+11	Core		0		0		0		0		0
+12	North		0		0		0		0		0
+12	East		0		0		0		0		0
+12	Core		0		0		0		0		0
+13	North		1		4		8		2		16
+13	East		0		0		0		0		0
+13	West		0		0		0		0		0
+13	Core		1		4		66		16.5		32
+14	North		0		0		0		0		0
+14	East		0		0		0		0		0
+14	West		0		0		0		0		0
+14	Core		0		0		0		0		0
+15	North		0		0		0		0		0
+15	West		0		0		0		0		0
+15	Core		0		0		0		0		0
+
+Send packets      = 7  and flits = 28
+Recieved packets  = 7  and flits = 28
+Travelled packets  = 29 and flits = 116
+RT_ALGO = DyBM IAT_TYPE = AA CONGESTION_LEVEL = 0 CONGESTION_PRIORITY = 3
+AA CONGESTION_AFFECT_VC = true CONGESTION_USE = false
+AA HOP_LEVEL = 6 HOP_USE = false
+NUM_BUFS = 5 NUM_VCS = 4
+WARMUP = 10 TG_NUM = 10 SIM_NUM = 50
+WRITE_THROUGH_OUTPORT = true
+Overall average NoC latency       (in clock cycles per flit)   = 10.8571
+Overall average NoC latency       (in clock cycles per packet) = 43.4286
+Worst-case NoC latency            (in clock cycles per flit)   = 4.375
+Overall average router latency    (in clock cycles per flit)   = 1.74138
+Overall average router latency    (in clock cycles per packet) = 6.96552
+
+Overall average NoC throughput             (Gbps)              = 9.6
+Overall average router throughput          (Gbps)              = 7.19278
+Overall average router throughput in North (Gbps)              = 8.09812
+Overall average router throughput in South (Gbps)              = 6.51429
+Overall average router throughput in West  (Gbps)              = 9.52381
+Overall average router throughput in East  (Gbps)              = 4.63492
+
+Worst-case NoC number of waits      (in clock cycles per flit) = 1.6875
+Overall average NoC number of waits (in clock cycles per flit) = 1.29688
+Worst-case NoC number of hops       (number)                   = 1.4375
+Overall average NoC number of hops  (number)                   = 1.375
+
+Average buffers utilization      (in percent) = 0.024487 and virtual channels utilization (in percent)   = 0.0569466
+
+Efficienty of NoC buffers policy (in percent) = 88.0551 { if avg. NoC latency (in clock cycles per flit) = 10.8571 }
