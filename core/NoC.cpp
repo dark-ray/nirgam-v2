@@ -474,9 +474,18 @@ void NoC::entry() {
             progress_bar_draw((double)SIM_NUM, (double)sim_count, 40);
             
             if (sim_count == 1) {  // modeling misfunctional
-               // set_router_fail(9);
-                set_router_fail(10);
-                set_router_fail(11);
+             /*  set_router_fail_dir(1, W, true, true);
+               set_router_fail_dir(0, E, true, true);
+               set_router_fail_dir(12, N, true, true);
+               set_router_fail_dir(8, S, true, true);
+               set_router_fail_dir(13, E, true, true);
+               set_router_fail_dir(14, W, true, true);
+               set_router_fail_dir(10, E, true, true);
+               set_router_fail_dir(11, W, true, true);
+               set_router_fail_dir(5, E, true, true);
+               set_router_fail_dir(6, W, true, true);*/
+               
+              //  set_router_fail(11);
             }
 		}
         
@@ -510,11 +519,7 @@ void NoC::entry() {
 /// \return result
 /////////////////////////////////////////
 bool NoC::set_router_fail(UI tileID) {
-    set_router_fail_dir(tileID, N, true, true);
-    set_router_fail_dir(tileID, E, true, true);
-    set_router_fail_dir(tileID, W, true, true);
-    set_router_fail_dir(tileID, S, true, true);
-    set_router_fail_dir(tileID, C, true, true);
+    turn_off_ipcore_and_links(tileID);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -534,6 +539,7 @@ bool NoC::set_router_fail_dir(UI tileID, UI dir, bool fail, bool ack_like_real) 
       
     int cur_xco = tileID / num_cols;
 	int cur_yco = tileID % num_cols;
+    int tmpNum = 0;
     
     if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(dir) == fail)
         return true;
@@ -549,26 +555,39 @@ bool NoC::set_router_fail_dir(UI tileID, UI dir, bool fail, bool ack_like_real) 
     }
     
     bool res = true;
-    switch (dir) {
-        case N: case S: {
-                    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(E) || (ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(W))
-                        res &= turn_off_ipcore_and_links(tileID);
-        }; break;
-        case E: case W: {
-                    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(N) || (ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(S))
-                        res &= turn_off_ipcore_and_links(tileID);
-        }; break;
-        default: break;
-    }
     
-   /* for (UI i = 0; i < num_rows; i++) 
-        for (UI j = 0; j < num_cols; j++) {
-            UI tmpID = i * num_cols + j;
-            if ((((ptr nwtile[i][j])->get_router_fail_dir(N) || (ptr nwtile[i][j])->get_router_fail_dir(S)) &&
-                 ((ptr nwtile[i][j])->get_router_fail_dir(E) || (ptr nwtile[i][j])->get_router_fail_dir(W))) && 
-               !corner(tmpID))
-                   turn_off_ipcore_and_links(tmpID);
-        }*/
+    // calc all fail dirs
+    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(N))
+        tmpNum++;
+        
+    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(S))
+        tmpNum++;
+        
+    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(E))
+        tmpNum++;
+        
+    if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(W))
+        tmpNum++;
+  
+    if (corner(tileID)) {           // corner tile
+        if (tmpNum > 2)
+            res &= turn_off_ipcore_and_links(tileID);
+    } else if (border(tileID)) {    // border tile
+        if (tmpNum > 3)
+            res &= turn_off_ipcore_and_links(tileID);
+    } else {                        // center tile
+        switch (dir) {
+            case N: case S: {
+                        if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(E) || (ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(W))
+                            res &= turn_off_ipcore_and_links(tileID);
+            }; break;
+            case E: case W: {
+                        if ((ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(N) || (ptr nwtile[cur_xco][cur_yco])->get_router_fail_dir(S))
+                            res &= turn_off_ipcore_and_links(tileID);
+            }; break;
+            default: break;
+        }
+    }
     
     return res;
 }
@@ -663,29 +682,33 @@ bool NoC::is_turn_off_tile(UI x, UI y) {
     
     if ((ptr nwtile[x][y])->is_router_shutdown())
         return false;
+        
+    // calc off dirs
+    if ((ptr nwtile[x][y])->get_router_fail_dir(N))
+        tmpNum++;
+        
+    if ((ptr nwtile[x][y])->get_router_fail_dir(S))
+        tmpNum++;
+        
+    if ((ptr nwtile[x][y])->get_router_fail_dir(E))
+        tmpNum++;
+        
+    if ((ptr nwtile[x][y])->get_router_fail_dir(W))
+        tmpNum++;
     
-    if (!corner(tmpID) && !border(tmpID)) {
+    if (corner(tmpID)) {
+        if (tmpNum > 2)
+            return true;
+    } else if (border(tmpID)) {
+        if (tmpNum > 3)
+            return true;
+    } else {    
         if (((ptr nwtile[x][y])->get_router_fail_dir(N) || (ptr nwtile[x][y])->get_router_fail_dir(S)) &&
             ((ptr nwtile[x][y])->get_router_fail_dir(E) || (ptr nwtile[x][y])->get_router_fail_dir(W)))
                 return true;
     }
-    else {
-        if ((ptr nwtile[x][y])->get_router_fail_dir(N))
-            tmpNum++;
-            
-        if ((ptr nwtile[x][y])->get_router_fail_dir(S))
-            tmpNum++;
-            
-        if ((ptr nwtile[x][y])->get_router_fail_dir(E))
-            tmpNum++;
-            
-        if ((ptr nwtile[x][y])->get_router_fail_dir(W))
-            tmpNum++;
-            
-        if (tmpNum > 2)
-            return true;
-            
-    }
+    
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////

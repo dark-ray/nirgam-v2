@@ -274,7 +274,7 @@ void InputChannel<num_op> :: route_flit() {
 						case NOC: if(flit_out.pkthdr.nochdr.flittype == HEAD || flit_out.pkthdr.nochdr.flittype == HDT) {
 							routing_type rt = flit_out.pkthdr.nochdr.flithdr.header.rtalgo;
 							routing_hdr *rt_hdr = &(flit_out.pkthdr.nochdr.flithdr.header.rthdr);
-
+                            
 							if(rt == SOURCE) {
 								routing_src(&flit_out);
 							}
