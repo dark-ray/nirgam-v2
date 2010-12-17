@@ -435,7 +435,8 @@ template <UI num_nb, UI num_ic, UI num_oc>
 void NWTile<num_nb, num_ic, num_oc>::closeLogs() {
 	for(UI i = 0; i < num_oc; i++)
 		Ochannel[i]->closeLogs();
-    ip->closeLogs();
+    if (ip != NULL)
+        ip->closeLogs();
     bufUtil = (double)totBufsOcc/(NUM_VCS * NUM_BUFS * num_ic *(SIM_NUM - WARMUP));
 	vcUtil = (double)totVCOcc/(NUM_VCS * num_ic * (SIM_NUM - WARMUP));
     
@@ -642,7 +643,10 @@ bool NWTile<num_nb, num_ic, num_oc>::is_router_shutdown() {
 /////////////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 bool NWTile<num_nb, num_ic, num_oc>::set_creating_flits_state(UI toTileID, bool grant) {
-    return ip->set_creating_flits_state(toTileID, grant);
+    bool res = false;
+    if (ip != NULL)
+        ip->set_creating_flits_state(toTileID, grant);
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -650,7 +654,10 @@ bool NWTile<num_nb, num_ic, num_oc>::set_creating_flits_state(UI toTileID, bool 
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_send_packets_number() {
-	return ip->num_pkts_gen;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->num_pkts_gen;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -658,7 +665,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_send_packets_number() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_send_flits_number() {
-	return ip->num_flits_gen;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->num_flits_gen;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -666,7 +676,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_send_flits_number() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_recv_packets_number() {
-	return ip->total_packets_recived;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->total_packets_recived;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -674,7 +687,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_recv_packets_number() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_recv_flits_number() {
-	return ip->total_flits_recived;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->total_flits_recived;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -682,7 +698,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_recv_flits_number() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_latency_core() {
-	return ip->avg_latency;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->avg_latency;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -690,7 +709,10 @@ double NWTile<num_nb, num_ic, num_oc>::return_latency_core() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_latency_flit_core() {
-	return ip->avg_latency_flit;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->avg_latency_flit;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -698,7 +720,10 @@ double NWTile<num_nb, num_ic, num_oc>::return_latency_flit_core() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_wc_latency_flit_core() {
-	return ip->wc_latency;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->wc_latency;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -706,7 +731,10 @@ double NWTile<num_nb, num_ic, num_oc>::return_wc_latency_flit_core() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_avg_tput_core() {
-	return ip->avg_throughput;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->avg_throughput;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -714,7 +742,10 @@ double NWTile<num_nb, num_ic, num_oc>::return_avg_tput_core() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_total_latency_core() {
-	return ip->total_latency;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->total_latency;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -722,7 +753,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_total_latency_core() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_wc_num_waits() {
-	return ip->wc_num_waits;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->wc_num_waits;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -730,7 +764,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_wc_num_waits() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 ULL NWTile<num_nb, num_ic, num_oc>::return_wc_num_sw() {
-	return ip->wc_num_sw;
+    ULL res = 0;
+    if (ip != NULL)
+        res = ip->wc_num_sw;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -738,7 +775,10 @@ ULL NWTile<num_nb, num_ic, num_oc>::return_wc_num_sw() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_avg_num_waits() {
-	return ip->avg_num_waits;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->avg_num_waits;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -746,7 +786,10 @@ double NWTile<num_nb, num_ic, num_oc>::return_avg_num_waits() {
 ////////////////////////////////////////////////////////////////
 template <UI num_nb, UI num_ic, UI num_oc>
 double NWTile<num_nb, num_ic, num_oc>::return_avg_num_sw() {
-	return ip->avg_num_sw;
+    double res = 0;
+    if (ip != NULL)
+        res = ip->avg_num_sw;
+    return res;
 }
 
 /////////////////////////////////////////////////////////////////

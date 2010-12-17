@@ -364,13 +364,24 @@ int sc_main(int argc, char *argv[]) {
 			mat_tput_log<<"\t"<<null;
 			
 			if(j != num_rows - 1) {
-				mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i])->return_latency(S);
-				mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i])->return_latency_flit(S);
-				mat_tput_log<<"\t"<<(noc.nwtile[j][i])->return_avg_tput(S);
-				
-				mat_lat_pkt_log<<"\t"<<(noc.nwtile[j+1][i])->return_latency(N);
-				mat_lat_flit_log<<"\t"<<(noc.nwtile[j+1][i])->return_latency_flit(N);
-				mat_tput_log<<"\t"<<(noc.nwtile[j+1][i])->return_avg_tput(N);
+        if (noc.nwtile[j][i] != NULL) {
+            mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i])->return_latency(S);
+            mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i])->return_latency_flit(S);
+            mat_tput_log<<"\t"<<(noc.nwtile[j][i])->return_avg_tput(S);
+            
+            mat_lat_pkt_log<<"\t"<<(noc.nwtile[j+1][i])->return_latency(N);
+            mat_lat_flit_log<<"\t"<<(noc.nwtile[j+1][i])->return_latency_flit(N);
+            mat_tput_log<<"\t"<<(noc.nwtile[j+1][i])->return_avg_tput(N);
+        }
+        else {
+            mat_lat_pkt_log<<"\t0.0";
+            mat_lat_flit_log<<"\t0.0";
+            mat_tput_log<<"\t0.0";
+            
+            mat_lat_pkt_log<<"\t0.0";
+            mat_lat_flit_log<<"\t0.0";
+            mat_tput_log<<"\t0.0";
+        }
 			}
 		}
 		mat_lat_pkt_log<<endl;
@@ -380,16 +391,21 @@ int sc_main(int argc, char *argv[]) {
 		
 		if(i != num_cols - 1) {
 			for(UI j = 0; j < num_rows; j++) {
-				mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i])->return_latency(E);
-				mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i])->return_latency_flit(E);
-				mat_tput_log<<"\t"<<(noc.nwtile[j][i])->return_avg_tput(E);
-				
-				if(j != num_rows - 1) {
-					mat_lat_pkt_log<<"\t"<<null<<"\t"<<null;
-					mat_lat_flit_log<<"\t"<<null<<"\t"<<null;
-					mat_tput_log<<"\t"<<null<<"\t"<<null;
-			
-				}
+        if (noc.nwtile[j][i] != NULL) {
+            mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i])->return_latency(E);
+            mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i])->return_latency_flit(E);
+            mat_tput_log<<"\t"<<(noc.nwtile[j][i])->return_avg_tput(E);
+        }
+        else {
+            mat_lat_pkt_log<<"\t0.0";
+            mat_lat_flit_log<<"\t0.0";
+            mat_tput_log<<"\t0.0";
+        }
+        if(j != num_rows - 1) {
+            mat_lat_pkt_log<<"\t"<<null<<"\t"<<null;
+            mat_lat_flit_log<<"\t"<<null<<"\t"<<null;
+            mat_tput_log<<"\t"<<null<<"\t"<<null;
+        }
 			}
 			mat_lat_pkt_log<<endl;
 			mat_lat_flit_log<<endl;
@@ -397,9 +413,16 @@ int sc_main(int argc, char *argv[]) {
 					
 			
 			for(UI j = 0; j < num_rows; j++) {
-				mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i+1])->return_latency(W);
-				mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i+1])->return_latency_flit(W);
-				mat_tput_log<<"\t"<<(noc.nwtile[j][i+1])->return_avg_tput(W);
+        if (noc.nwtile[j][i+1] != NULL) {
+            mat_lat_pkt_log<<"\t"<<(noc.nwtile[j][i+1])->return_latency(W);
+            mat_lat_flit_log<<"\t"<<(noc.nwtile[j][i+1])->return_latency_flit(W);
+            mat_tput_log<<"\t"<<(noc.nwtile[j][i+1])->return_avg_tput(W);
+        }
+        else {
+            mat_lat_pkt_log<<"\t0.0";
+            mat_lat_flit_log<<"\t0.0";
+            mat_tput_log<<"\t0.0";
+        }
 				
 				if(j != num_rows - 1) {
 					mat_lat_pkt_log<<"\t"<<null<<"\t"<<null;
@@ -416,9 +439,16 @@ int sc_main(int argc, char *argv[]) {
     
     for (UI i = 0; i < num_cols; i++)
         for (UI j = 0; j < num_rows; j++) {
-            mat_lat_core_pkt_log<<(noc.nwtile[i][j])->return_latency_core()<<endl;
-            mat_lat_core_flit_log<<(noc.nwtile[i][j])->return_latency_flit_core()<<endl;
-            mat_core_tput_log<<(noc.nwtile[i][j])->return_avg_tput_core()<<endl;
+            if (noc.nwtile[i][j] != NULL) {
+                mat_lat_core_pkt_log<<(noc.nwtile[i][j])->return_latency_core()<<endl;
+                mat_lat_core_flit_log<<(noc.nwtile[i][j])->return_latency_flit_core()<<endl;
+                mat_core_tput_log<<(noc.nwtile[i][j])->return_avg_tput_core()<<endl;
+            }
+            else {
+                mat_lat_core_pkt_log<<"0.0"<<endl;
+                mat_lat_core_flit_log<<"0.0"<<endl;
+                mat_core_tput_log<<"0.0"<<endl;
+            }
         }
 	
 	// generate gnuplot logs
@@ -497,6 +527,9 @@ int sc_main(int argc, char *argv[]) {
 			double x = (double)i + i;
 			double y = (double)j + 0.2;
 			double null = 0.0;
+      
+      if (noc.nwtile[i][j] == NULL)
+          continue;
 			
 			xlatency_log<<"\t"<<y<<"\t"<<x+0.1<<"\t"<<null<<endl;
 			xlatency_log<<"\t"<<y<<"\t"<<(x + 0.1)<<"\t"<<(noc.nwtile[i][j])->return_latency(E)<<endl;
@@ -580,6 +613,9 @@ int sc_main(int argc, char *argv[]) {
     double noc_unrouted_avg_latency = 0.0;
     for(UI i = 0; i < num_rows; i++) {
 		for(UI j = 0; j < num_cols; j++) {
+      if (noc.nwtile[i][j] == NULL)
+          continue;
+      
 			noc_total_packets += (noc.nwtile[i][j])->return_total_packets();
 			noc_total_flits += (noc.nwtile[i][j])->return_total_flits();
             noc_total_latency += (noc.nwtile[i][j])->return_total_latency();
@@ -686,6 +722,9 @@ int sc_main(int argc, char *argv[]) {
     ULL noc_total_channels_EW = ((num_cols - 1) * num_rows);
     for(UI i = 0; i < num_rows; i++) {
 		for(UI j = 0; j < num_cols; j++) {
+            if (noc.nwtile[i][j] == NULL)
+                continue;
+            
             if (noc.nwtile[i][j]->getportid(N) != ND)
                 noc_total_tput_N += (noc.nwtile[i][j])->return_avg_tput(N);
             if (noc.nwtile[i][j]->getportid(S) != ND)
@@ -719,6 +758,9 @@ int sc_main(int argc, char *argv[]) {
 	double noc_avg_num_sw    = 0.0;
 	for(UI i = 0; i < num_rows; i++) {
 		for(UI j = 0; j < num_cols; j++) {
+      if (noc.nwtile[i][j] == NULL)
+          continue;
+      
 			noc_wc_num_waits += (noc.nwtile[i][j])->return_wc_num_waits();
 			noc_wc_num_sw += (noc.nwtile[i][j])->return_wc_num_sw();
 			noc_avg_num_waits += (noc.nwtile[i][j])->return_avg_num_waits();
