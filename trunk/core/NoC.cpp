@@ -474,7 +474,7 @@ void NoC::entry() {
             progress_bar_draw((double)SIM_NUM, (double)sim_count, 40);
             
             if (sim_count == 1) {  // modeling misfunctional
-             /*  set_router_fail_dir(1, W, true, true);
+            /*   set_router_fail_dir(1, W, true, true);
                set_router_fail_dir(0, E, true, true);
                set_router_fail_dir(12, N, true, true);
                set_router_fail_dir(8, S, true, true);
@@ -483,8 +483,8 @@ void NoC::entry() {
                set_router_fail_dir(10, E, true, true);
                set_router_fail_dir(11, W, true, true);
                set_router_fail_dir(5, E, true, true);
-               set_router_fail_dir(6, W, true, true);*/
-               
+               set_router_fail_dir(6, W, true, true);
+              */
               //  set_router_fail(11);
             }
 		}
